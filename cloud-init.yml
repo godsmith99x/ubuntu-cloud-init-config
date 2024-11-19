@@ -5,7 +5,7 @@ users:
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
     ssh_authorized_keys:
-      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC02KdCLXmL+EoLtH0DjuAU1vIS6c7JdFUozCEKjGPEC
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHcZreStUKSpXyHzEvlYUPRpzmxDzbn9FQ2uZhjtS/Ja
 chpasswd:
   expire: true
   users:
@@ -21,6 +21,8 @@ runcmd:
   - printf "[sshd]\nenabled = true\nbanaction = iptables-multiport" > /etc/fail2ban/jail.local
   - systemctl enable fail2ban
   - ufw allow OpenSSH
+  - ufw allow http
+  - ufw allow https
   - ufw enable
   - sed -i -e '/^\(#\|\)PermitRootLogin/s/^.*$/PermitRootLogin no/' /etc/ssh/sshd_config
   - sed -i -e '/^\(#\|\)PubkeyAuthentication/s/^.*$/PubkeyAuthentication yes/' /etc/ssh/sshd_config
